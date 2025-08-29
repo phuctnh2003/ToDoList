@@ -1,5 +1,5 @@
 
-Ứng dụng **Quản lý công việc hàng ngày kết hợp chấm công**.  
+Ứng dụng **quản lý công việc hàng ngày kết hợp chấm công**.  
 ---
 ## Chức năng chính
 - Quản lý người dùng:
