@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .user-container {
+        display: flex;
+        width: 90%;
+        max-width: 1200px;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar {
+        width: 250px;
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+    }
+
+    .sidebar-logo {
+        width: 150px;
+        margin-bottom: 20px;
+    }
+
+    .menu-btn {
+        width: 100%;
+        background-color: #444;
+        color: white;
+        padding: 15px;
+        margin: 5px 0;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .menu-btn:hover {
+        background-color: #555;
+    }
+
+    .user-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+    }
+ .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        text-align: left; /* Ensure text alignment for list items */
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover, .close:focus {
+        color: black;
+        text-decoration: none;
+    }
+    .header-left h1 {
+        margin: 0;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+    }
+
+.checkbox {
+    margin-right: 10px;
+}
+#todoList li {
+    background: #f1f1f1;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start; /* Aligns text to the top */
+    justify-content: space-between; /* Space between checkbox and delete button */
+}
+.delete-btn {
+    background-color: #ff4d4f;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: auto; /* Pushes delete button to the far right */
+}
+    .user-logo {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+    .logout-btn {
+        background-color: #ff4d4f;
+        color: #fff;
+        padding: 8px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 20px;
+        background-color: #f9f9fb;
+        overflow-y: auto;
+    }
+
+    .table-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    #todoList {
+        max-height: 200px; /* Set fixed height for the to-do list */
+        overflow-y: auto; /* Enable vertical scrolling */
+        border: 1px solid #ddd; /* Optional: Add a border to the container */
+        padding: 5px; /* Optional: Add padding for better appearance */
+        background-color: #fff; /* Optional: Set a background color */
+        border-radius: 4px; /* Optional: Round the corners */
+        margin-bottom: 10px; /* Space for the Update button */
+    }
+    #todoList ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .update-btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+  #todoInput{
+    width: 100%; /* Full width of the container */
+height: 110px; /* You can adjust this height as needed */
+padding: 10px; /* Adds padding for better readability */
+resize: vertical; /* Allows vertical resizing by the user */
+box-sizing: border-box; /* Ensures padding is included in the width and height */
+
+  }
+    .todo-btn {
+        background-color: #007bff;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .textarea-container {
+        margin-bottom: 15px;
+
+    }
+    /* Đặt trong file CSS hoặc trong thẻ <style> trong HTML */
+.custom-button {
+    background-color: blue;  /* Màu nền */
+    color: white;            /* Màu chữ */
+    border: none;            /* Bỏ đường viền */
+    padding: 5px 10px;       /* Khoảng cách trong nút */
+    border-radius: 5px;      /* Bo góc */
+    cursor: pointer;         /* Con trỏ khi hover vào nút */
+}
+
+  </style>
+</head>
+<body onload="getname();loadTodoItems();">
+
+<div class="user-container">
+  <aside class="sidebar">
+    <img src="Logo_horizontal_noslogan_1000x200.png" alt="Logo" class="sidebar-logo">
+    <button class="menu-btn" onclick="showSection('checkin-section')">Attendance </button>
+    <button class="menu-btn" onclick="showSection('todo-section')">To-do List</button>
+    <button class="menu-btn" onclick="showSection('data-section')">Data</button>
+  </aside>
+
+  <main class="main-content">
+    <header class="user-header">
+      <div class="header-left">
+        <h1>USER DASHBOARD</h1>
+      </div>
+      <div class="header-right">
+        <img src="user.png" alt="User Logo" class="user-logo">
+        <span id="usernameDisplay" style="margin-left: 10px; margin-right: 10px;"></span> <!-- Hiển thị tên người dùng -->
+        <button onclick="logout()" class="logout-btn">Logout</button>
+      </div>
+    </header>
+
+
+    <section class="section-content" id="checkin-section">
+      <h2>Attendance</h2>
+      <div style="margin-bottom: 15px;">
+        <button onclick="checkIn()" class="menu-btn">Check-in</button>
+        <button onclick="checkOut()" class="menu-btn">Check-out</button>
+      </div>
+    </section>
+
+
+    <section class="section-content" id="todo-section" style="display: none;">
+      <h2>To-do List</h2>
+      <div class="textarea-container">
+        <textarea id="todoInput" placeholder="Enter work to be done" rows="3" required></textarea>
+        <button onclick="addTodoItem()" class="todo-btn">Add</button>
+      </div>
+      <div id="todoList">
+        <ul id="todoItems">
+
+        </ul>
+      </div>
+      <button onclick="updatetodolist()" class="update-btn">Update</button> <!-- Update button -->
+    </section>
+
+
+    <section class="section-content" id="data-section" style="display: none;">
+      <h2>Check-in / Check-out Data</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Check-in</th>
+            <th>Check-out</th>
+            <th>Time</th>
+            <th>To-do List</th>
+            <th>Status</th>
+          </tr>
+          </thead>
+          <tbody id="dataTable">
+
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+<div id="todoModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3>To-Do List</h3>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<script>
+  const username = sessionStorage.getItem("username");
+
+  if (!username) {
+      window.location.href = "/attendance";
+  }
+
+
+async function loadUserData() {
+    const tableBody = document.getElementById('dataTable');
+    tableBody.innerHTML = '';
+
+    try {
+        const response = await fetch(`/info?username=${username}`);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+
+        data.forEach(entry => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.checkin}</td>
+                <td>${entry.checkout}</td>
+                <td>${entry.time}</td>
+                <td><button onclick='showTodoList(${JSON.stringify(entry.todolist)})'>View</button></td>
+                <td>${entry.status}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // 👇 kiểm tra bản ghi cuối cùng (mới nhất)
+        if (data.length > 0 && data[data.length - 1].checkout) {
+            document.getElementById("todoInput").disabled = true;
+            document.querySelector(".todo-btn").disabled = true;   // nút Add
+            const updateBtn = document.querySelector(".update-btn");
+            updateBtn.disabled = true;
+            updateBtn.innerHTML = "Checked out";
+        }
+
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        tableBody.innerHTML = '<tr><td colspan="6">No data available</td></tr>';
+    }
+}
+
+
+// Function to display the To-Do List in a modal
+function showTodoList(todolist) {
+    try {
+        if (typeof todolist === "string") {
+            todolist = JSON.parse(todolist);
+        }
+    } catch (e) {
+        console.error("Invalid todolist JSON", todolist);
+        todolist = [];
+    }
+
+    const modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = '';
+
+    if (Array.isArray(todolist) && todolist.length > 0) {
+        const table = document.createElement('table');
+        table.style.width = '100%';
+        table.style.borderCollapse = 'collapse';
+
+        const headerRow = document.createElement('tr');
+        headerRow.innerHTML = `
+            <th style="border-bottom: 1px solid #ddd; padding: 8px; text-align: left;">Task</th>
+            <th style="border-bottom: 1px solid #ddd; padding: 8px; text-align: left;">Status</th>
+        `;
+        table.appendChild(headerRow);
+
+        todolist.forEach(task => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td style="border-bottom: 1px solid #ddd; padding: 8px;">${task.content}</td>
+        <td style="border-bottom: 1px solid #ddd; padding: 8px; color: ${task.status === 'completed' ? 'green' : 'gray'};">
+            ${task.status === 'completed' ? '✔️' : '❌'}
+        </td>
+    `;
+    table.appendChild(row);
+});
+
+
+        modalContent.appendChild(table);
+    } else {
+        modalContent.innerHTML = '<p>No to-do items available.</p>';
+    }
+
+    document.getElementById('todoModal').style.display = 'block';
+}
+
+
+// Close modal when clicking outside of it or on close button
+window.onclick = function(event) {
+    const modal = document.getElementById('todoModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+}
+function closeModal() {
+    document.getElementById('todoModal').style.display = 'none';
+}
+
+
+async function getname() {
+            const usernameDisplay = document.getElementById('usernameDisplay');
+            // Giả sử bạn có một biến username
+            try {
+                const response = await fetch(`/getname?username=${username}`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                const userName = await response.text();
+                if (usernameDisplay) {
+                    usernameDisplay.textContent = userName; // Cập nhật tên người dùng hiển thị
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                if (usernameDisplay) {
+                    usernameDisplay.textContent = 'Không thể tải tên người dùng'; // Bảo đảm rằng phần tử tồn tại trước khi cập nhật
+                }
+            }
+        }
+
+  async function checkIn() {
+      try {
+          const response = await fetch(`/checkin?username=${username}`, {
+              method: 'GET'
+          });
+          const result = await response.text();
+          alert(result); // Display the result from the server
+          loadUserData(); // Refresh the user data
+      } catch (error) {
+          console.error('Error during check-in:', error);
+          alert('Check-in failed.');
+      }
+  }
+
+  async function checkOut() {
+      try {
+          const response = await fetch(`/checkout?username=${username}`, {
+              method: 'GET'
+          });
+          const result = await response.text();
+          alert(result); // Display the result from the server
+          loadUserData(); // Refresh the user data
+      } catch (error) {
+          console.error('Error during check-out:', error);
+          alert('Check-out failed.');
+      }
+  }
+
+ async function addTodoItem() {
+      const todoText = document.getElementById('todoInput').value;
+      if (!todoText) return alert("Please enter a task.");
+
+      const todoList = document.getElementById('todoItems');
+
+      // Create a new list item element with checkbox and delete button
+      const listItem = document.createElement('li');
+
+      // Checkbox to mark as complete
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'checkbox';
+
+      // Task text
+      const taskText = document.createElement('span');
+      taskText.textContent = todoText;
+
+      // Delete button
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = 'Delete';
+              deleteBtn.className = 'delete-btn';
+
+      deleteBtn.onclick = () => {
+          todoList.removeChild(listItem);
+      };
+
+      listItem.appendChild(checkbox);
+      listItem.appendChild(taskText);
+      listItem.appendChild(deleteBtn);
+      todoList.appendChild(listItem);
+
+
+      document.getElementById('todoInput').value = ''; // Clear the input
+  }
+async function loadTodoItems() {
+  const todoList = document.getElementById('todoItems');
+  todoList.innerHTML = ''; // Clear current list
+
+  try {
+      const response = await fetch(`/gettodolist?username=${username}`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+      const todos = await response.json(); // Assuming the response is an array of objects
+
+      todos.forEach(item => {
+          // Only create the element if item.content is not an empty string
+          if (item.content && item.content.trim() !== "") {
+              createTodoElement(item.content, item.status);
+          }
+      });
+  } catch (error) {
+      console.error('Error fetching to-do items:', error);
+  }
+}
+function createTodoElement(content, status = 'pending') {
+  const todoList = document.getElementById('todoItems');
+  const listItem = document.createElement('li');
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.className = 'checkbox';
+  checkbox.checked = status === 'completed';
+
+  const taskText = document.createElement('span');
+  taskText.textContent = content;
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.className = 'delete-btn';
+  deleteBtn.onclick = () => todoList.removeChild(listItem);
+
+  listItem.appendChild(checkbox);
+  listItem.appendChild(taskText);
+  listItem.appendChild(deleteBtn);
+  todoList.appendChild(listItem);
+
+
+}
+async function updatetodolist() {
+  // Get the list of to-do items from the UI
+  const todos = document.querySelectorAll('#todoItems li');
+  const todoData = Array.from(todos).map(todo => {
+      const checkbox = todo.querySelector('.checkbox');
+      const taskText = todo.querySelector('span').textContent;
+      return {
+          content: taskText,
+          status: checkbox.checked ? 'completed' : 'pending'
+      };
+  });
+
+  // Encode `todoData` as a JSON string and then URL-encode it
+  const todolist = encodeURIComponent(JSON.stringify(todoData));
+
+  try {
+      // Send a GET request with `username` and `todolist` as query parameters
+      const response = await fetch(`/todolist?username=${username}&todolist=${todolist}`, {
+          method: 'GET'
+      });
+
+      const result = await response.text();
+      alert(result); // Display the result in an alert
+       loadUserData();
+
+  } catch (error) {
+      console.error('Error updating to-do items:', error);
+      alert('Failed to update to-do items.');
+  }
+}
+
+
+
+  function showSection(sectionId) {
+      const sections = ['checkin-section', 'todo-section', 'data-section'];
+      sections.forEach(section => {
+          document.getElementById(section).style.display = section === sectionId ? 'block' : 'none';
+      });
+  }
+
+function logout() {
+  sessionStorage.removeItem("username");
+
+  fetch("/logout", { method: "POST" })
+    .then(res => res.text())
+    .then(data => {
+      window.location.href = "/index.html";
+    })
+    .catch(err => {
+      console.error("Logout failed:", err);
+      window.location.href = "/index.html";
+    });
+}
+
+
+  loadUserData();
+</script>
+
+</body>
+</html>

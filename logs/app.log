@@ -1,0 +1,111 @@
+2025-08-22 17:07:35 INFO  phuctnh.Main - Starting Main using Java 23 with PID 27516 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-22 17:07:35 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-22 17:07:35 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-22 17:07:36 INFO  phuctnh.Main - Started Main in 1.65 seconds (process running for 2.102)
+2025-08-22 17:08:12 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa checkin trước đó"}
+2025-08-22 17:08:18 INFO  phuctnh.function - LOG INFO: {"status":"001_01_500", "message":"checkIn: Bạn đã check-in trong ngày hôm nay"}
+2025-08-22 17:09:48 INFO  phuctnh.Main - Starting Main using Java 23 with PID 15144 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-22 17:09:48 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-22 17:09:48 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-22 17:09:50 INFO  phuctnh.Main - Started Main in 1.981 seconds (process running for 2.492)
+2025-08-24 21:59:26 INFO  phuctnh.Main - Starting Main using Java 23 with PID 6840 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-24 21:59:26 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-24 21:59:26 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-24 21:59:28 INFO  phuctnh.Main - Started Main in 1.984 seconds (process running for 5.668)
+2025-08-24 22:12:28 ERROR phuctnh.function - LOG ERROR: auth/login: 001_02_400
+2025-08-24 22:12:41 ERROR phuctnh.function - LOG ERROR: {"status":"404", "message":"getUserInfo: Dữ liệu trống"}
+2025-08-24 22:12:48 ERROR phuctnh.function - LOG ERROR: admin/stats: 001_02_400
+2025-08-24 22:12:53 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa viết TodoList"}
+2025-08-27 20:34:52 INFO  phuctnh.Main - Starting Main using Java 23 with PID 13700 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 20:34:52 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 20:34:52 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 20:34:54 INFO  phuctnh.Main - Started Main in 2.107 seconds (process running for 2.917)
+2025-08-27 20:41:27 INFO  phuctnh.Main - Starting Main using Java 23 with PID 9528 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 20:41:27 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 20:41:27 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 20:41:28 INFO  phuctnh.Main - Started Main in 1.694 seconds (process running for 2.187)
+2025-08-27 20:53:45 INFO  phuctnh.Main - Starting Main using Java 23 with PID 3332 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 20:53:45 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 20:53:45 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 20:53:46 INFO  phuctnh.Main - Started Main in 1.644 seconds (process running for 2.151)
+2025-08-27 20:54:44 INFO  phuctnh.Main - Starting Main using Java 23 with PID 11924 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 20:54:44 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 20:54:44 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 20:54:45 INFO  phuctnh.Main - Started Main in 1.64 seconds (process running for 2.134)
+2025-08-27 20:56:28 INFO  phuctnh.Main - Starting Main using Java 23 with PID 18620 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 20:56:28 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 20:56:28 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 20:56:29 INFO  phuctnh.Main - Started Main in 1.516 seconds (process running for 1.995)
+2025-08-27 21:02:26 INFO  phuctnh.Main - Starting Main using Java 23 with PID 13024 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 21:02:26 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 21:02:26 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 21:02:28 INFO  phuctnh.Main - Started Main in 1.925 seconds (process running for 2.458)
+2025-08-27 21:06:48 INFO  phuctnh.Main - Starting Main using Java 23 with PID 23652 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 21:06:48 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 21:06:48 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 21:06:49 INFO  phuctnh.Main - Started Main in 1.688 seconds (process running for 2.157)
+2025-08-27 21:55:24 ERROR phuctnh.function - LOG ERROR: {"status":"404", "message":"getUserInfo: Dữ liệu trống"}
+2025-08-27 21:59:55 INFO  phuctnh.Main - Starting Main using Java 23 with PID 1588 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 21:59:55 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 21:59:55 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 21:59:56 INFO  phuctnh.Main - Started Main in 1.59 seconds (process running for 2.049)
+2025-08-27 22:01:36 INFO  phuctnh.Main - Starting Main using Java 23 with PID 21000 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 22:01:36 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 22:01:36 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 22:01:38 INFO  phuctnh.Main - Started Main in 1.675 seconds (process running for 2.229)
+2025-08-27 22:02:19 INFO  phuctnh.Main - Starting Main using Java 23 with PID 22012 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 22:02:19 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 22:02:19 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 22:02:20 INFO  phuctnh.Main - Started Main in 1.642 seconds (process running for 2.118)
+2025-08-27 22:02:29 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa viết TodoList"}
+2025-08-27 22:03:49 INFO  phuctnh.Main - Starting Main using Java 23 with PID 884 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-27 22:03:49 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-27 22:03:49 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-27 22:03:50 INFO  phuctnh.Main - Started Main in 1.966 seconds (process running for 2.451)
+2025-08-27 22:04:11 ERROR phuctnh.function - LOG ERROR: {"status":"404", "message":"getUserInfo: Dữ liệu trống"}
+2025-08-27 22:04:23 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa viết TodoList"}
+2025-08-29 16:52:42 INFO  phuctnh.Main - Starting Main using Java 23 with PID 18712 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 16:52:42 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 16:52:42 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 16:52:43 INFO  phuctnh.Main - Started Main in 1.979 seconds (process running for 2.735)
+2025-08-29 16:53:17 ERROR phuctnh.function - LOG ERROR: auth/login: 001_02_400
+2025-08-29 16:53:38 ERROR phuctnh.function - LOG ERROR: {"status":"404", "message":"getUserInfo: Dữ liệu trống"}
+2025-08-29 16:54:43 ERROR phuctnh.function - LOG ERROR: {"status":"404", "message":"getUserInfo: Dữ liệu trống"}
+2025-08-29 17:19:53 INFO  phuctnh.Main - Starting Main using Java 23 with PID 19780 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 17:19:53 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 17:19:53 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 17:19:54 INFO  phuctnh.Main - Started Main in 1.941 seconds (process running for 2.44)
+2025-08-29 17:37:41 INFO  phuctnh.Main - Starting Main using Java 23 with PID 4500 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 17:37:41 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 17:37:41 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 17:37:42 INFO  phuctnh.Main - Started Main in 1.873 seconds (process running for 2.603)
+2025-08-29 17:38:02 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_500", "message":"addToDoList: Bạn chưa viết TodoList"}
+2025-08-29 17:38:25 INFO  phuctnh.Main - Starting Main using Java 23 with PID 17328 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 17:38:25 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 17:38:25 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 17:38:26 INFO  phuctnh.Main - Started Main in 1.838 seconds (process running for 2.355)
+2025-08-29 17:38:55 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa checkin trước đó"}
+2025-08-29 17:38:58 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa checkin trước đó"}
+2025-08-29 17:39:01 INFO  phuctnh.function - LOG INFO: {"status":"001_01_500", "message":"checkIn: Bạn đã check-in trong ngày hôm nay"}
+2025-08-29 17:39:05 ERROR phuctnh.function - LOG ERROR: {"status":"001_01_400", "message":"checkOut: Bạn chưa checkin trước đó"}
+2025-08-29 17:39:37 INFO  phuctnh.Main - Starting Main using Java 23 with PID 2156 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 17:39:37 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 17:39:37 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 17:39:38 INFO  phuctnh.Main - Started Main in 1.796 seconds (process running for 2.299)
+2025-08-29 21:49:07 INFO  phuctnh.Main - Starting Main using Java 23 with PID 13964 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 21:49:07 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 21:49:07 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 21:49:08 INFO  phuctnh.Main - Started Main in 1.968 seconds (process running for 2.75)
+2025-08-29 21:49:51 ERROR phuctnh.function - LOG ERROR: auth/login: 001_02_400
+2025-08-29 21:52:10 INFO  phuctnh.Main - Starting Main using Java 23 with PID 3364 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 21:52:10 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 21:52:10 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 21:52:12 INFO  phuctnh.Main - Started Main in 1.567 seconds (process running for 2.043)
+2025-08-29 21:52:44 INFO  phuctnh.Main - Starting Main using Java 23 with PID 18548 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 21:52:44 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 21:52:44 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 21:52:45 INFO  phuctnh.Main - Started Main in 1.785 seconds (process running for 2.246)
+2025-08-29 21:53:59 INFO  phuctnh.Main - Starting Main using Java 23 with PID 6712 (D:\Project\ToDoList\target\classes started by ADMIN in D:\Project\ToDoList)
+2025-08-29 21:53:59 DEBUG phuctnh.Main - Running with Spring Boot v3.3.4, Spring v6.1.13
+2025-08-29 21:53:59 INFO  phuctnh.Main - No active profile set, falling back to 1 default profile: "default"
+2025-08-29 21:54:00 INFO  phuctnh.Main - Started Main in 1.626 seconds (process running for 2.086)

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management Dashboard</title>
+    <link rel="stylesheet" href="/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body onload="loadAllEmployees(); loadStats();">
+<div class="admin-container">
+    <aside class="sidebar">
+        <img src="Logo_horizontal_noslogan_1000x200.png" alt="Logo" class="sidebar-logo">
+        <button class="menu-btn" onclick="showDeleteSection()"><i class="fas fa-user-times"></i> Delete Employee</button>
+        <button class="menu-btn" onclick="showInfoSection()"><i class="fas fa-info-circle"></i> Employee Information</button>
+        <button class="menu-btn" onclick="showTodolistSection()"><i class="fas fa-list"></i> Employee To-Do List</button>
+        <button class="menu-btn" onclick="showStatsSection()"><i class="fas fa-chart-bar"></i> Employee Stats</button>
+    </aside>
+
+    <main class="main-content">
+        <header class="admin-header">
+            <div class="header-left">
+                <h1>Employee Management Dashboard</h1> <!-- Changed to more descriptive title -->
+            </div>
+            <div class="header-right">
+                <img src="admin.png" alt="User Logo" class="user-logo">
+                <span id="usernameDisplay" class="username-display"><span th:text="${name}"></span></span>
+                <button onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </header>
+
+        <section class="section-content" id="delete-section">
+            <h2>Delete Employee</h2>
+            <form id="deleteForm">
+                <input type="text" id="usernameToDelete" placeholder="Enter username" required>
+                <button type="submit">Delete</button>
+            </form>
+            <p id="deleteMessage"></p>
+        </section>
+
+        <section class="section-content" id="info-section" style="display: none;">
+            <h2>Employee Information</h2>
+            <input type="text" id="searchInput" placeholder="Enter employee name...">
+            <input type="date" id="startDate" placeholder="Start date">
+            <input type="date" id="endDate" placeholder="End date">
+            <div id="infoDisplay" class="scrollable-content">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="infoTableBody">
+                    </tbody>
+                </table>
+
+                <div id="pagination"></div>
+            </div>
+        </section>
+
+        <section class="section-content" id="todolist-section" style="display: none;">
+            <h2>Employee To-Do List</h2>
+            <input type="text" id="todolistSearchInput" placeholder="Enter employee name...">
+            <input type="date" id="todolistDate" placeholder="Date">
+            <div id="todolistDisplay" class="scrollable-content">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>To-Do List</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="todolistTableBody">
+                    </tbody>
+                </table>
+                <div id="todolistPagination"></div>
+            </div>
+        </section>
+
+        <section class="section-content" id="stats-section" style="display: none;">
+            <h2>Employee Stats</h2>
+            <div id="statsTableContainer" class="scrollable-content">
+                <table id="statsTable">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Total Hours Worked</th>
+                        <th>Late Days</th>
+                        <th>Completed Tasks</th>
+                        <th>Pending Tasks</th>
+                    </tr>
+                    </thead>
+                    <tbody id="statsTableBody">
+                    </tbody>
+                </table>
+            </div>
+            <div id="statsPagination"></div>
+            <div style="margin-top: 20px; max-width: 600px; margin: auto;">
+                <canvas id="statsChart" width="300" height="150"></canvas>
+            </div>
+        </section>
+    </main>
+</div>
+<script>
+    let employeeData = [];
+    let filteredData = [];
+    let currentPage = 1;
+    const itemsPerPage = 7;
+
+    // Tải toàn bộ danh sách nhân viên khi trang tải
+    function loadAllEmployees() {
+        fetch('/admin/show')
+            .then(response => response.ok ? response.json() : [])
+            .then(data => {
+                employeeData = data;
+                todolistData = data;
+                employeeData.sort((a, b) => new Date(b.checkin) - new Date(a.checkin));
+                renderTable(employeeData);
+                renderTodolistTable(todolistData);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Hàm lọc nhân viên theo tên và/hoặc ngày
+    function filterEmployees() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const startDateValue = document.getElementById('startDate').value;
+        const endDateValue = document.getElementById('endDate').value;
+
+        const startDate = startDateValue ? new Date(startDateValue) : null;
+        const endDate = endDateValue ? new Date(endDateValue) : null;
+
+        if (endDate) endDate.setHours(23, 59, 59, 999);
+
+        filteredData = employeeData.filter(employee => {
+            const employeeName = employee.name.toLowerCase();
+            const checkinDate = new Date(employee.checkin);
+
+            const isNameMatch = searchTerm ? employeeName.includes(searchTerm) : true;
+            const isDateInRange = (!startDate || checkinDate >= startDate) &&
+                                  (!endDate || checkinDate <= endDate);
+
+            return isNameMatch && isDateInRange;
+        });
+
+        currentPage = 1;
+        renderTable(filteredData);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', filterEmployees);
+    document.getElementById('startDate').addEventListener('change', filterEmployees);
+    document.getElementById('endDate').addEventListener('change', filterEmployees);
+
+    function renderTable(data) {
+        const infoTableBody = document.getElementById('infoTableBody');
+        infoTableBody.innerHTML = '';
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
+        paginatedData.forEach(info => {
+            infoTableBody.innerHTML += `
+                <tr>
+                    <td>${info.name}</td>
+                    <td>${info.checkin}</td>
+                    <td>${info.checkout}</td>
+                    <td>${info.status}</td>
+                </tr>
+            `;
+        });
+        renderPagination(data.length);
+    }
+     function renderPagination(totalItems) {
+        const pageCount = Math.ceil(totalItems / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+        for (let i = 1; i <= pageCount; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.textContent = i;
+            pageBtn.classList.add('page-btn');
+            if (i === currentPage) pageBtn.classList.add('active');
+            pageBtn.addEventListener('click', () => {
+                currentPage = i;
+                renderTable(filteredData.length ? filteredData : employeeData);
+            });
+            pagination.appendChild(pageBtn);
+        }
+    }
+
+let todolistData = [];
+let currentTodolistPage = 1;
+const todolistItemsPerPage = 7;
+let filteredTodolist = [];
+
+// Hàm hiển thị To-Do List với phân trang
+function renderTodolistTable(data) {
+    const todolistTableBody = document.getElementById('todolistTableBody');
+    todolistTableBody.innerHTML = '';
+
+    const startIndex = (currentTodolistPage - 1) * todolistItemsPerPage;
+    const paginatedData = data.slice(startIndex, startIndex + todolistItemsPerPage);
+
+    let lastName = '';
+    let lastDate = '';
+
+    paginatedData.forEach(employee => {
+        if (employee.todolist) {
+            // Nếu todolist là một chuỗi JSON, chuyển đổi nó thành mảng đối tượng
+            if (typeof employee.todolist === 'string') {
+                employee.todolist = JSON.parse(employee.todolist);
+            }
+
+            if (Array.isArray(employee.todolist)) {
+                employee.todolist.forEach(task => {
+                    const currentDate = new Date(employee.checkin);
+                    const dateStr = currentDate.toISOString().split('T')[0];
+
+                    const showName = employee.name !== lastName || dateStr !== lastDate;
+
+                    todolistTableBody.innerHTML += `
+                        <tr>
+                            <td>${showName ? employee.name : ''}</td>
+                            <td>${task.content}</td>
+                            <td>${showName ? dateStr : ''}</td>
+                            <td style="color: ${task.status === 'completed' ? 'green' : 'red'}">
+                                ${task.status === 'completed' ? '✔' : '✘'}
+                            </td>
+                        </tr>
+                    `;
+
+                    lastName = employee.name;
+                    lastDate = dateStr;
+                });
+            }
+        } else {
+            console.warn('Employee todolist is not an array or is null:', employee);
+            employee.todolist = [];  // Đảm bảo `todolist` là mảng rỗng nếu không hợp lệ
+        }
+    });
+
+    renderTodolistPagination(filteredTodolist.length ? filteredTodolist.length : data.length);
+}
+
+
+// Hàm hiển thị phân trang cho To-Do List
+function renderTodolistPagination(totalItems) {
+    const pageCount = Math.ceil(totalItems / todolistItemsPerPage);
+    const pagination = document.getElementById('todolistPagination');
+    pagination.innerHTML = '';  // Xóa các nút phân trang cũ trước khi thêm mới
+
+    for (let i = 1; i <= pageCount; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        pageBtn.classList.add('page-btn');
+
+        if (i === currentTodolistPage) pageBtn.classList.add('active');  // Đánh dấu nút trang hiện tại là active
+
+        pageBtn.addEventListener('click', () => {
+            currentTodolistPage = i;
+            renderTodolistTable(filteredTodolist.length ? filteredTodolist : todolistData);  // Sử dụng filteredTodolist nếu có
+        });
+
+        pagination.appendChild(pageBtn);  // Thêm nút trang vào phần tử phân trang
+    }
+}
+
+
+
+// Lọc To-Do List
+function filterTodolist() {
+    const searchTerm = document.getElementById('todolistSearchInput').value.toLowerCase();
+    const selectedDate = document.getElementById('todolistDate').value;
+
+    const selectedDateObject = selectedDate ? new Date(selectedDate) : null;
+
+    filteredTodolist = todolistData.filter(employee => {
+        const nameMatch = employee.name.toLowerCase().includes(searchTerm);
+        const dateMatch = selectedDateObject ? isSameDay(new Date(employee.checkin), selectedDateObject) : true;
+
+        return nameMatch && dateMatch;
+    });
+
+    currentTodolistPage = 1; // Reset lại trang khi lọc
+    renderTodolistTable(filteredTodolist);
+}
+
+
+// Hàm kiểm tra nếu hai ngày là cùng một ngày (bỏ qua thời gian)
+function isSameDay(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+}
+
+document.getElementById('todolistSearchInput').addEventListener('input', filterTodolist);
+document.getElementById('todolistDate').addEventListener('change', filterTodolist);
+
+
+
+    document.getElementById('deleteForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const username = document.getElementById('usernameToDelete').value;
+        fetch('/admin/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `username=${username}`
+        })
+            .then(response => response.ok ? "Xóa thành công" : "Không tìm thấy nhân viên")
+            .then(message => {
+            document.getElementById('deleteMessage').textContent = message;
+            clearInputs();
+            setTimeout(() => location.reload(), 500);
+        })
+        .catch(error => console.error('Error:', error));
+});
+function clearInputs() {
+    document.getElementById('usernameToDelete').value = '';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('startDate').value = '';
+    document.getElementById('endDate').value = '';
+}
+
+    function showDeleteSection() {
+        displaySection('delete-section');
+    }
+    function showInfoSection() {
+        displaySection('info-section');
+    }
+   function showStatsSection() {
+    clearInputs();
+    displaySection('stats-section');
+    loadStats();
+}
+function showTodolistSection() {
+    displaySection('todolist-section');
+}
+    function displaySection(sectionId) {
+    clearInputs();
+    document.querySelectorAll('.section-content').forEach(section => {
+        section.style.display = 'none'; // Ẩn tất cả các phần
+    });
+    document.getElementById(sectionId).style.display = 'block'; // Hiển thị phần được chọn
+}
+    // Hàm tải thống kê
+   let statsData = [];
+let currentStatsPage = 1;
+const statsItemsPerPage = 7;
+
+// Hàm tải thống kê
+function loadStats() {
+    fetch('/admin/stats')
+        .then(response => response.ok ? response.json() : [])
+        .then(data => {
+            statsData = data;
+            renderStatsTable();
+            renderStatsChart(data);
+        })
+        .catch(error => console.error('Error:', error));
+}
+// Hàm hiển thị bảng thống kê với phân trang
+function renderStatsTable() {
+    const statsTableBody = document.getElementById('statsTableBody');
+    statsTableBody.innerHTML = '';
+    const startIndex = (currentStatsPage - 1) * statsItemsPerPage;
+    const paginatedData = statsData.slice(startIndex, startIndex + statsItemsPerPage);
+
+    paginatedData.forEach(employee => {
+        statsTableBody.innerHTML += `
+            <tr>
+                <td>${employee.name}</td>
+                <td>${employee.totalHours}</td>
+                <td>${employee.lateDays}</td>
+                <td>${employee.totalCompleted}</td> <!-- Cột công việc đã hoàn thành -->
+                <td>${employee.totalPending}</td>   <!-- Cột công việc chưa hoàn thành -->
+            </tr>
+        `;
+    });
+    renderStatsPagination();
+}
+
+// Hàm hiển thị phân trang cho bảng thống kê
+function renderStatsPagination() {
+    const statsPagination = document.getElementById('statsPagination');
+    statsPagination.innerHTML = '';
+    const pageCount = Math.ceil(statsData.length / statsItemsPerPage);
+    for (let i = 1; i <= pageCount; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        pageBtn.classList.add('page-btn');
+        if (i === currentStatsPage) pageBtn.classList.add('active');
+        pageBtn.addEventListener('click', () => {
+            currentStatsPage = i;
+            renderStatsTable();
+        });
+        statsPagination.appendChild(pageBtn);
+    }
+}
+
+   let statsChart; // Khai báo biến toàn cục cho biểu đồ
+
+function renderStatsChart(data) {
+    const ctx = document.getElementById('statsChart').getContext('2d');  // Get the canvas element to draw the chart
+
+    // Check and destroy the existing chart if it exists to avoid overlapping errors
+    if (statsChart) {
+        statsChart.destroy();
+    }
+
+    // Extract data for employee names and the necessary statistics
+    const names = data.map(employee => employee.name).slice(0, 3); // Only show the first 10 employees
+    const totalHours = data.map(employee => employee.totalHours).slice(0, 3);  // Total working hours
+    const lateDays = data.map(employee => employee.lateDays).slice(0, 3);  // Number of late days
+    const totalCompleted = data.map(employee => employee.totalCompleted).slice(0, 3);  // Completed tasks
+    const totalPending = data.map(employee => employee.totalPending).slice(0, 3);  // Pending tasks
+
+    // Create the chart with the extracted data
+    statsChart = new Chart(ctx, {
+        type: 'bar',  // Chart type: bar
+        data: {
+            labels: names,  // X-axis labels (employee names)
+            datasets: [
+                {
+                    label: 'Total Working Hours',
+                    data: totalHours,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',  // Background color for the bars
+                    borderColor: 'rgba(75, 192, 192, 1)',  // Border color for the bars
+                    borderWidth: 1  // Border width
+                },
+                {
+                    label: 'Number of Late Days',
+                    data: lateDays,
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',  // Background color for the bars
+                    borderColor: 'rgba(255, 99, 132, 1)',  // Border color for the bars
+                    borderWidth: 1
+                },
+                {
+                    label: 'Completed Tasks',
+                    data: totalCompleted,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',  // Background color for the bars
+                    borderColor: 'rgba(54, 162, 235, 1)',  // Border color for the bars
+                    borderWidth: 1
+                },
+                {
+                    label: 'Pending Tasks',
+                    data: totalPending,
+                    backgroundColor: 'rgba(255, 159, 64, 0.6)',  // Background color for the bars
+                    borderColor: 'rgba(255, 159, 64, 1)',  // Border color for the bars
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,  // The chart will adjust size when the screen size changes
+            maintainAspectRatio: true,  // Keep the aspect ratio of the chart
+            scales: {
+                y: {
+                    beginAtZero: true,  // Ensure the Y-axis starts from 0
+                    title: {
+                        display: true,  // Display the title for the Y-axis
+                        text: 'Quantity'  // Y-axis title
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,  // Display the title for the X-axis
+                        text: 'Employee Names'  // X-axis title
+                    },
+                    ticks: {
+                        maxRotation: 0,  // Ensure labels on the X-axis stay horizontal
+                        minRotation: 0
+                    }
+                }
+            }
+        }
+    });
+}
+    function logout() {
+        window.location.href = '/index.html';
+    }
+
+</script>
+</body>
+</html>
